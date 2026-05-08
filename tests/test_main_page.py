@@ -14,7 +14,7 @@ class TestMainPage:
         page.wait_for_url_contains('/feed')
         page.click_constructor_tab()
 
-        assert '/feed' not in driver.current_url
+        assert '/feed' not in page.get_current_url()
 
     @allure.title("Переход по клику на раздел 'Лента заказов'")
     def test_open_order_feed_tab(self, driver):
@@ -22,7 +22,7 @@ class TestMainPage:
 
         page.click_order_feed_tab()
 
-        assert '/feed' in driver.current_url
+        assert '/feed' in page.get_current_url()
 
     @allure.title("По клику на ингредиент открывается модальное окно с деталями")
     def test_ingredient_details_modal_opens(self, driver):

@@ -14,8 +14,8 @@ class TestOrderFeedPage:
         return normalized if normalized else "0"
 
     def _login(self, driver, user):
-        driver.get(f"{BASE_URL}/login")
         account_page = AccountPage(driver)
+        account_page.open(f"{BASE_URL}/login")
         account_page.login(user["email"], user["password"])
         account_page.wait_for_url_not_contains("/login")
 
@@ -74,9 +74,4 @@ class TestOrderFeedPage:
         main_page.click_order_feed_tab()
 
         feed_page = OrderFeedPage(driver)
-        in_progress_numbers = [
-            self._normalize_order_number(number)
-            for number in feed_page.get_in_progress_numbers()
-        ]
-
-        assert order_number in in_progress_numbers
+        assert feed_page.wait_for_order_in_progress(order_number)

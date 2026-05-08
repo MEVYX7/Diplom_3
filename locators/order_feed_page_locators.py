@@ -16,5 +16,5 @@ class OrderFeedPageLocators:
     IN_PROGRESS_LIST = (By.XPATH, "//ul[contains(@class,'OrderFeed_orderListReady')]")
     IN_PROGRESS_ORDER_NUMBERS = (
         By.XPATH,
-        "//ul[contains(@class,'OrderFeed_orderListReady')]//li[contains(@class,'text_type_digits-default')]",
+        "//p[contains(normalize-space(),'В работе')]/following-sibling::ul[1]//li[contains(@class,'text_type_digits-default')]",
     )

@@ -1,5 +1,4 @@
-﻿import os
-from pathlib import Path
+﻿from pathlib import Path
 
 import pytest
 from selenium import webdriver
@@ -83,7 +82,6 @@ def registered_user(driver):
     try:
         account_page.wait_for_url_contains("/login")
     except TimeoutException:
-        # Retry one more submit in case the first click was swallowed by UI animation.
         account_page.submit_register_again()
         try:
             account_page.wait_for_url_contains("/login")

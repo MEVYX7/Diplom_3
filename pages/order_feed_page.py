@@ -10,4 +10,21 @@ class OrderFeedPage(BasePage):
         return int(self.get_text(OrderFeedPageLocators.TODAY_DONE_COUNTER).replace(',', ''))
 
     def get_in_progress_numbers(self):
-        return [element.text.strip() for element in self.find_elements(OrderFeedPageLocators.IN_PROGRESS_ORDER_NUMBERS)]
+        elements = self.driver.find_elements(*OrderFeedPageLocators.IN_PROGRESS_ORDER_NUMBERS)
+        return [element.text.strip() for element in elements]
+
+    @staticmethod
+    def _normalize_order_number(value):
+        normalized = value.replace("#", "").strip().lstrip("0")
+        return normalized if normalized else "0"
+
+    def wait_for_order_in_progress(self, order_number):
+        normalized_target = self._normalize_order_number(order_number)
+
+        def _order_present(_):
+            return normalized_target in [
+                self._normalize_order_number(number)
+                for number in self.get_in_progress_numbers()
+            ]
+
+        return self.wait.until(_order_present)

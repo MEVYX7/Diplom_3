@@ -4,6 +4,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 
 
 class BasePage:
+    MODAL_OVERLAY = ("css selector", "div[class*='Modal_modal_overlay']")
+
     def __init__(self, driver, timeout=10):
         self.driver = driver
         self.wait = WebDriverWait(driver, timeout)
@@ -23,7 +25,7 @@ class BasePage:
 
     def _wait_modal_overlay_disappear(self):
         try:
-            self.wait.until(ec.invisibility_of_element_located(("css selector", "div[class*='Modal_modal_overlay']")))
+            self.wait.until(ec.invisibility_of_element_located(self.MODAL_OVERLAY))
         except TimeoutException:
             pass
 
@@ -58,6 +60,9 @@ class BasePage:
 
     def wait_for_url_not_contains(self, value):
         self.wait.until_not(ec.url_contains(value))
+
+    def get_current_url(self):
+        return self.driver.current_url
 
     def get_text(self, locator):
         return self.find_element(locator).text
